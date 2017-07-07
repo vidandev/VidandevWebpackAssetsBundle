@@ -1,0 +1,30 @@
+{
+  "name" : "vidandev/webpack-assets-bundle",
+  "description" : "Webpack generated asset management for Symfony",
+  "type" : "symfony-bundle",
+  "authors" : [{
+    "name" : "Viktor Nadai",
+    "email" : "vidandev@gmail.com"
+  }],
+  "keywords" : [
+    "webpack assets bundle symfony asset live reload"
+  ],
+  "license" : [
+    "MIT"
+  ],
+  "require" : {
+  },
+  "autoload" : {
+    "psr-0" : {
+      "Vidandev\\WebpackAssetsBundle" : ""
+    }
+  },
+  "target-dir" : "Vidandev/WebpackAssetsBundle",
+  "repositories" : [{
+  }],
+  "extra" : {
+    "branch-alias" : {
+      "dev-master" : "1.0.x-dev"
+    }
+  }
+}
