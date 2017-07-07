@@ -16,7 +16,7 @@
   },
   "autoload" : {
     "psr-0" : {
-      "Vidandev\\WebpackAssetsBundle" : ""
+      "Vidandev\\WebpackAssetsBundle\\" : ""
     }
   },
   "target-dir" : "Vidandev/WebpackAssetsBundle",
