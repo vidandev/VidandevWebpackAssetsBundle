@@ -2,6 +2,7 @@
 
 namespace Vidandev\WebpackAssetsBundle\DependencyInjection;
 
+use Symfony\Component\Config\Definition\Processor;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\Config\FileLocator;
 use Symfony\Component\HttpKernel\DependencyInjection\Extension;
@@ -20,7 +21,10 @@ class VidandevWebpackAssetsExtension extends Extension
     public function load(array $configs, ContainerBuilder $container)
     {
         $configuration = new Configuration();
-        $config = $this->processConfiguration($configuration, $configs);
+        $processor = new Processor();
+        $config = $processor->process($configuration->getConfigTreeBuilder()->buildTree(), $configs);
+
+        $container->setParameter('vidandev_webpack_assets', $config);
 
         $loader = new Loader\YamlFileLoader($container, new FileLocator(__DIR__.'/../Resources/config'));
         $loader->load('services.yml');

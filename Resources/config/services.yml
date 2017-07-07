@@ -1,1 +1,9 @@
 services:
+    vidandev.webpack_asset_extension:
+        class: Vidandev\WebpackAssetsBundle\Twig\Extension\WebpackAssetExtension
+        public: false
+        arguments:
+            - '@twig.extension.assets'
+            - '%vidandev_webpack_assets%'
+        tags:
+            - { name: twig.extension }
