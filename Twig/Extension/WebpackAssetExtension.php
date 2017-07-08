@@ -55,7 +55,7 @@ class WebpackAssetExtension extends AbstractExtension
         $liveAssetUrl = $devServerConfig['host'];
 
         if ($port = $devServerConfig['port']) {
-            $liveAssetUrl .= $port;
+            $liveAssetUrl .= (':' . $port);
         }
 
         $subPath = $this->assetExtension->getAssetUrl($path, $packageName);
