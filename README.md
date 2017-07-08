@@ -11,3 +11,12 @@ vidandev_webpack_assets:
         host: http://localhost
         port: 9000
 ```
+
+Enable the bundle in ```AppKernel.php```:
+```php
+$bundles = [
+    // ...
+    new Vidandev\WebpackAssetsBundle\VidandevWebpackAssetsBundle(),      
+    // ...
+];
+```
