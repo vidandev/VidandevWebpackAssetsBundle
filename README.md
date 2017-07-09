@@ -1,5 +1,5 @@
 # VidandevWebpackAssetsBundle
-Webpack integration for Symfony framework.
+Webpack integration for the Symfony framework.
 
 Currently only supports the inclusion of static assets from the filesystem or from 'webpack dev server' based on configuration.
 
@@ -50,10 +50,10 @@ vidandev_webpack_assets:
 
 
 ## Usage
-Use it like the built in ```asset``` twig function but with a ```webpack_``` prefix.
+Use it like the built in Asset Component's ```asset``` twig function but with a ```webpack_``` prefix.
 
 If ```dev_server``` is enabled in ```config.yml``` it will generate the urls for the assets on the 'webpack dev server'
-otherwise it will work like the built in Asset Component's ```asset``` twig function. 
+otherwise it will work like the ```asset``` function.
 
 ```twig
 <link rel="stylesheet" href="{{ webpack_asset('style.css') }}"/>
