@@ -1,7 +1,7 @@
 # VidandevWebpackAssetsBundle
 Webpack integration for Symfony framework.
 
-Currently only supports including assets with path or from webpack dev server based on configuration.
+Currently only supports the inclusion of static assets from the filesystem or from 'webpack dev server' based on configuration.
 
 ## Installation
 1. Add repository to ```composer.json```
@@ -30,23 +30,47 @@ Currently only supports including assets with path or from webpack dev server ba
     ```
 
 ## Configuration
+It is recommended to enable the dev_server config only in ```config_dev.yml```.
+
+Minimal configuration to get assets from webpack dev server:
+```yaml
+vidandev_webpack_assets:
+    dev_server:
+        enabled: true
+```
+
 Default configuration:
 ```yaml
 vidandev_webpack_assets:
     dev_server:
         enabled: false
         host: http://localhost
-        port: 9000
+        port: 8000
 ```
-It is recommended to enable the dev_server config only in ```config_dev.yml```.
 
 
 ## Usage
 Use it like the built in ```asset``` twig function but with a ```webpack_``` prefix.
-If ```dev_server``` is enabled in ```config.yml``` it will generate the urls for the assets on the webpack dev server
-otherwise it will work like the built in ```asset``` twig function. 
+
+If ```dev_server``` is enabled in ```config.yml``` it will generate the urls for the assets on the 'webpack dev server'
+otherwise it will work like the built in Asset Component's ```asset``` twig function. 
 
 ```twig
 <link rel="stylesheet" href="{{ webpack_asset('style.css') }}"/>
 <script type="application/javascript" src="{{ webpack_asset('app.js') }}"></script>
+```
+
+#### Asset Packages
+You can use the Asset Components packages like this:
+```twig
+<link rel="stylesheet" href="{{ webpack_asset('style.css', 'static/css') }}"/>
+```
+Or you can pass null instead of package name:
+```twig
+<link rel="stylesheet" href="{{ webpack_asset('style.css', null) }}"/>
+```
+#### Force filesystem inclusion
+You can force the inclusion of assets from filesystem instead of using the ones on the 'webpack dev server':
+```twig
+<link rel="stylesheet" href="{{ webpack_asset('style.css', null, false) }}"/>
 ```
