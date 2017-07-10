@@ -88,9 +88,24 @@ class WebpackAssetExtension extends AbstractExtension
         $liveAssetUrl[] = '/';
 
         $subPath = $this->assetExtension->getAssetUrl($path, $packageName);
-        $liveAssetUrl[] = substr($subPath, strpos($subPath, 'web/'));
+        $liveAssetUrl[] = $this->preparePath($subPath);
 
         return implode("", $liveAssetUrl);
+    }
+
+    private function preparePath($subPath)
+    {
+        $webPosition = strpos($subPath, 'web/');
+
+        if ($webPosition) {
+            $shortPath = substr($subPath, $webPosition + 4);
+        } else {
+            $shortPath = $subPath;
+        }
+
+        $trimmedPath = trim($shortPath, '/');
+
+        return 'web/' . $trimmedPath;
     }
 
     /**
