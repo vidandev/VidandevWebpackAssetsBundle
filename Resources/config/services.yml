@@ -4,6 +4,7 @@ services:
         public: false
         arguments:
             - '@twig.extension.assets'
+            - '@assets.context'
             - '%vidandev_webpack_assets%'
         tags:
             - { name: twig.extension }

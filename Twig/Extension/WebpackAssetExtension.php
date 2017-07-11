@@ -3,7 +3,10 @@
 namespace Vidandev\WebpackAssetsBundle\Twig\Extension;
 
 use Symfony\Bridge\Twig\Extension\AssetExtension;
+use Symfony\Component\Asset\Context\RequestStackContext;
+use Symfony\Component\Asset\Packages;
 use Symfony\Component\Config\Definition\Exception\Exception;
+use Symfony\Component\DependencyInjection\Container;
 use Twig\Extension\AbstractExtension;
 use Twig\TwigFunction;
 
@@ -15,17 +18,24 @@ class WebpackAssetExtension extends AbstractExtension
     private $assetExtension;
 
     /**
+     * @var RequestStackContext
+     */
+    private $assetContext;
+
+    /**
      * @var array
      */
     private $config;
 
     /**
      * @param AssetExtension $assetExtension
+     * @param RequestStackContext $assetContext
      * @param array $config
      */
-    public function __construct(AssetExtension $assetExtension, $config)
+    public function __construct(AssetExtension $assetExtension, RequestStackContext $assetContext, $config)
     {
         $this->assetExtension = $assetExtension;
+        $this->assetContext = $assetContext;
         $this->config = $config;
     }
 
@@ -69,6 +79,13 @@ class WebpackAssetExtension extends AbstractExtension
         return ((true === $liveEnabled) && ($this->config['dev_server']['enabled']));
     }
 
+    /**
+     * Generate urls for assets on webpack dev server.
+     *
+     * @param $path
+     * @param null $packageName
+     * @return string
+     */
     private function generateLiveAssetUrl($path, $packageName = null)
     {
         $devServerConfig = $this->config['dev_server'];
@@ -87,23 +104,24 @@ class WebpackAssetExtension extends AbstractExtension
 
         $liveAssetUrl[] = '/';
 
-        $subPath = $this->assetExtension->getAssetUrl($path, $packageName);
-        $liveAssetUrl[] = $this->preparePath($subPath);
+        $assetPath = $this->assetExtension->getAssetUrl($path, $packageName);
+        $liveAssetUrl[] = $this->preparePath($assetPath);
 
         return implode("", $liveAssetUrl);
     }
 
-    private function preparePath($subPath)
+    /**
+     * We need the AssetExtension's getAssetUrl method to handle asset packages, because the package attributes
+     * are private.
+     *
+     * @param $assetPath
+     * @return string
+     */
+    private function preparePath($assetPath)
     {
-        $webPosition = strpos($subPath, 'web/');
-
-        if ($webPosition) {
-            $shortPath = substr($subPath, $webPosition + 4);
-        } else {
-            $shortPath = $subPath;
-        }
-
-        $trimmedPath = trim($shortPath, '/');
+        $basePath = $this->assetContext->getBasePath();
+        $path = substr($assetPath, strpos($assetPath, $basePath) + strlen($basePath));
+        $trimmedPath = trim($path, '/');
 
         return 'web/' . $trimmedPath;
     }
